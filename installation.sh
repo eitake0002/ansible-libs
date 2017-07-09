@@ -19,10 +19,3 @@ function install-ansible()
 {
   yum -y install ansible
 }
-
-# Description:
-#   Install sl command. Ansible use sl.
-function install-sl()
-{
-  yum -y install sl
-}
