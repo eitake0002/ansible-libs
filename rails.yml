@@ -1,0 +1,15 @@
+---
+- hosts: all
+  remote_user: ec2-user
+  sudo: yes
+  vars:
+    rails_version: 5.1.0
+  tasks:
+    - name: Check if ruby already exists. Skip if exists
+      shell: which ruby
+      register: ruby_install
+      failed_when: ruby_install.rc not in [0, 1]
+
+    - name: 
+      command: gem install rails -v {{rails_version}}
+
