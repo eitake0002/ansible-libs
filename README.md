@@ -2,7 +2,7 @@
 
 Anasible orchestration libraries. Automate installing tools, language, and softwares. 
 
-# Installation
+# Roles
 
 |Role Name  |Tools to be installed  |
 |---|---|
@@ -15,13 +15,21 @@ Anasible orchestration libraries. Automate installing tools, language, and softw
 $ ansible-playbook -i hosts site.yml
 ```
 
+# Setup
+
+1. Edit site.yml to set which role is to be executed.
+
 site.yml
 ```
 - name: 
-  hosts: all # Target Host
-  remote_user: ec2-user # Execution user on target host
-  sudo: yes # sudo execution
-  roles: # roles to execute
+  # Target Host
+  hosts: all
+  # Execution user on target host
+  remote_user: ec2-user
+  # sudo execution
+  sudo: yes
+  # roles to be executed
+  roles:
     - rails
     - mysql
 ```
