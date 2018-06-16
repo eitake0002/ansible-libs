@@ -1,38 +1,32 @@
-- hosts: joyful
-  sudo: yes
-  remote_user: ec2-user
-  vars:
-    username: newuser
-  tasks:
-    - name: install mysql
-      yum:
-        name: "{{item}}"
-      with_items:
-        - mysql57-server
-        - mysql57-devel
+- name: install mysql
+  yum:
+    name: "{{item}}"
+  with_items:
+    - mysql57-server
+    - mysql57-devel
 
-    - name: Restart MySQL
-      service:
-        name=mysqld
-        state=started
-        enabled=yes
+- name: Restart MySQL
+  service:
+    name=mysqld
+    state=started
+    enabled=yes
 
-    - name: Add MySQL-python
-      yum:
-        name: MySQL-python27
-        state: present
+- name: Add MySQL-python
+  yum:
+    name: MySQL-python27
+    state: present
 
-    - name: Make User
-      mysql_user:
-        name: Ansible
-        host: localhost
-        password: Ansible@1234
+- name: Make User
+  mysql_user:
+    name: Ansible
+    host: localhost
+    password: Ansible@1234
 
-    - name: Create database
-      mysql_db:
-        name: "{{item}}"
-        state: present
-      with_items:
-        - ansible_development
-        - ansible_test
-        - ansible_production
+- name: Create database
+  mysql_db:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - ansible_development
+    - ansible_test
+    - ansible_production
