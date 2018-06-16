@@ -1,69 +1,62 @@
----
-- hosts: all
-  remote_user: ec2-user
-  sudo: yes
-  vars:
-    home_path: /root
-  tasks:
-    - name: Check if ruby already exists. Skip if exists
-      shell: which ruby
-      register: ruby_install
-      failed_when: ruby_install.rc not in [0, 1]
+- name: Check if ruby already exists. Skip if exists
+  shell: which ruby
+  register: ruby_install
+  failed_when: ruby_install.rc not in [0, 1]
 
-    - name: Ruby dependency install
-      yum:
-        name: "{{item}}" 
-        state: latest
-      with_items:
-        - gcc
-        - zlib-devel
-        - openssl-devel
-        - sqlite
-        - sqlite-devel
-        - mysql-devel
-        - libffi-devel
-        - readline-devel
+- name: Ruby dependency install
+  yum:
+    name: "{{item}}" 
+    state: latest
+  with_items:
+    - gcc
+    - zlib-devel
+    - openssl-devel
+    - sqlite
+    - sqlite-devel
+    - mysql-devel
+    - libffi-devel
+    - readline-devel
 
-    - name: Install Git
-      yum: 
-        name: git 
-        state: latest
+- name: Install Git
+  yum: 
+    name: git 
+    state: latest
 
-    - name: Install rbenv from github.
-      git: 
-        repo: "https://github.com/sstephenson/rbenv.git"
-        dest: "{{home_path}}/.rbenv"
-      # sudo: no
+- name: Install rbenv from github.
+  git: 
+    repo: "https://github.com/sstephenson/rbenv.git"
+    dest: "{{home_path}}/.rbenv"
+  # sudo: no
 
-    #- name: change permission
-    #  file: path={{home_path}}/.rbenv owner=ec2-user state=directory recurse=yes
+#- name: change permission
+#  file: path={{home_path}}/.rbenv owner=ec2-user state=directory recurse=yes
 
-    - name: Install ruby-build
-      git: 
-        repo: "https://github.com/sstephenson/ruby-build.git"
-        dest: "{{home_path}}/.rbenv/plugins/ruby-build/"
-      # sudo: no
+- name: Install ruby-build
+  git: 
+    repo: "https://github.com/sstephenson/ruby-build.git"
+    dest: "{{home_path}}/.rbenv/plugins/ruby-build/"
+  # sudo: no
 
-    - name: Add rbenv to ~/.bash_profile
-      lineinfile:
-        dest: "{{home_path}}/.bash_profile"
-        line: "{{item}}"
-      with_items:
-        - 'export PATH="{{home_path}}/.rbenv/bin:$PATH"'
-        - 'eval "$(rbenv init -)" >/dev/null 2>&1'
-      # sudo: no
+- name: Add rbenv to ~/.bash_profile
+  lineinfile:
+    dest: "{{home_path}}/.bash_profile"
+    line: "{{item}}"
+  with_items:
+    - 'export PATH="{{home_path}}/.rbenv/bin:$PATH"'
+    - 'eval "$(rbenv init -)" >/dev/null 2>&1'
+  # sudo: no
 
-    - name: reload ~/.bash_profile
-      shell: source "{{home_path}}/.bash_profile"
-      # sudo: no
+- name: reload ~/.bash_profile
+  shell: source "{{home_path}}/.bash_profile"
+  # sudo: no
 
-    - name: Install ruby with rbenv
-      shell: /bin/bash -lc "rbenv install -v 2.1.5"
-      #become: yes
-      #become_user: ec2-user
+- name: Install ruby with rbenv
+  shell: /bin/bash -lc "rbenv install -v 2.1.5"
+  #become: yes
+  #become_user: ec2-user
 
-    # おまけに開発に必要なパッケージをinstall
-    #- yum: name={{item}} state=latest
-    #  with_items:
-    #    - ruby-devel
-    #    - rubygems
+# おまけに開発に必要なパッケージをinstall
+#- yum: name={{item}} state=latest
+#  with_items:
+#    - ruby-devel
+#    - rubygems
