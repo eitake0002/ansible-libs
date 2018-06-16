@@ -54,6 +54,7 @@
   shell: /bin/bash -lc "rbenv install -v 2.1.5"
   #become: yes
   #become_user: ec2-user
+  when: ruby_install.rc == 1
 
 # おまけに開発に必要なパッケージをinstall
 #- yum: name={{item}} state=latest
