@@ -1,6 +1,6 @@
 # ansible-utils
 
-Anasible orchestration libraries. Automate installing tools, language, and softwares. 
+Ansible orchestration libraries. Automate installing tools, language, and softwares. 
 
 # Roles
 
@@ -34,8 +34,6 @@ hosts
 ```
 [SSH HostName]
 ```
-
-About Inventory File
 
 Reference: 
 <a href="https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html" target="_blank">Working with Inventory</a>
