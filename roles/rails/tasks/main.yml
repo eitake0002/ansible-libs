@@ -26,16 +26,11 @@
   git: 
     repo: "https://github.com/sstephenson/rbenv.git"
     dest: "{{home_path}}/.rbenv"
-  # sudo: no
-
-#- name: change permission
-#  file: path={{home_path}}/.rbenv owner=ec2-user state=directory recurse=yes
 
 - name: Install ruby-build
   git: 
     repo: "https://github.com/sstephenson/ruby-build.git"
     dest: "{{home_path}}/.rbenv/plugins/ruby-build/"
-  # sudo: no
 
 - name: Add rbenv to ~/.bash_profile
   lineinfile:
@@ -44,11 +39,9 @@
   with_items:
     - 'export PATH="{{home_path}}/.rbenv/bin:$PATH"'
     - 'eval "$(rbenv init -)" >/dev/null 2>&1'
-  # sudo: no
 
 - name: reload ~/.bash_profile
   shell: source "{{home_path}}/.bash_profile"
-  # sudo: no
 
 - name: Install ruby with rbenv
   shell: /bin/bash -lc "rbenv install -v 2.1.5"
@@ -56,8 +49,3 @@
   #become_user: ec2-user
   when: ruby_install.rc == 1
 
-# おまけに開発に必要なパッケージをinstall
-#- yum: name={{item}} state=latest
-#  with_items:
-#    - ruby-devel
-#    - rubygems
